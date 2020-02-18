@@ -1,21 +1,38 @@
+
+trait Shape {
+    fn area(&self) -> f64;
+}
+
 struct Rectangle {
     width: f64,
     height: f64,
 }
 
-fn perimeter(rectangle: Rectangle) -> f64 {
-    return 2.0 * (rectangle.width + rectangle.height)
+impl Shape for Rectangle {
+    fn area(&self) -> f64 {
+        return self.width * self.height
+    }
 }
 
-fn area(rectangle: Rectangle) -> f64 {
-    return rectangle.width * rectangle.height
+struct Circle {
+    radius: f64,
+}
+
+impl Shape for Circle {
+    fn area(&self) -> f64 {
+        return std::f64::consts::PI * self.radius * self. radius
+    }
+}
+
+fn print_area<T: Shape>(shape: T) {
+    println!("{}", shape.area());
 }
 
 fn main() {
-    let mut rectangle = Rectangle { width:10.0, height:10.0 };
-    println!("{}", perimeter(rectangle));
-    rectangle = Rectangle { width:12.0, height:6.0 };
-    println!("{}", area(rectangle));
+    let rectangle = Rectangle { width:12.0, height:6.0 };
+    print_area(rectangle);
+    let circle = Circle { radius:10.0 };
+    print_area(circle);
 }
 
 #[cfg(test)]
@@ -24,9 +41,9 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let mut rectangle = Rectangle { width:10.0, height:10.0 };
-        assert_eq!(perimeter(rectangle), 40.0);
-        rectangle = Rectangle { width:12.0, height:6.0 };
-        assert_eq!(area(rectangle), 72.0);
+        let rectangle = Rectangle { width:12.0, height:6.0 };
+        assert_eq!(rectangle.area(), 72.0);
+        let circle = Circle { radius:10.0 };
+        assert_eq!(circle.area(), 314.1592653589793);
     }
 }
