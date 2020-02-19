@@ -24,15 +24,25 @@ impl Shape for Circle {
     }
 }
 
+struct Triangle {
+    base: f64,
+    height: f64,
+}
+
+impl Shape for Triangle {
+    fn area(&self) -> f64 {
+        return (self.base * self.height) * 0.5
+    }
+}
+
 fn print_area<T: Shape>(shape: T) {
     println!("{}", shape.area());
 }
 
 fn main() {
-    let rectangle = Rectangle { width:12.0, height:6.0 };
-    print_area(rectangle);
-    let circle = Circle { radius:10.0 };
-    print_area(circle);
+    print_area(Rectangle{width:12.0, height:6.0});
+    print_area(Circle{radius:10.0});
+    print_area(Triangle{base:12.0, height:6.0});
 }
 
 #[cfg(test)]
@@ -41,9 +51,8 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let rectangle = Rectangle { width:12.0, height:6.0 };
-        assert_eq!(rectangle.area(), 72.0);
-        let circle = Circle { radius:10.0 };
-        assert_eq!(circle.area(), 314.1592653589793);
+        assert_eq!(Rectangle{width:12.0, height:6.0}.area(), 72.0);
+        assert_eq!(Circle{radius:10.0}.area(), 314.1592653589793);
+        assert_eq!(Triangle{ base:12.0, height:6.0}.area(), 36.0);
     }
 }
