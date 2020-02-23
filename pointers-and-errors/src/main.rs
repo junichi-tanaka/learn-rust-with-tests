@@ -1,13 +1,19 @@
+type Bitcoin = i64;
+
 struct Wallet {
-    balance: i64,
+    balance: Bitcoin,
 }
 
 impl Wallet {
-    fn deposit(&mut self, amount: i64) {
+    fn deposit(&mut self, amount: Bitcoin) {
         self.balance += amount
     }
 
-    fn balance(&self) -> i64 {
+    fn withdraw(&mut self, amount: Bitcoin) {
+        self.balance -= amount
+    }
+
+    fn balance(&self) -> Bitcoin {
         return self.balance
     }
 }
@@ -26,6 +32,13 @@ mod tests {
     fn it_works() {
         let mut wallet = Wallet{balance:0};
         wallet.deposit(10);
+        assert_eq!(wallet.balance(), 10);
+    }
+
+    #[test]
+    fn test_withdraw() {
+        let mut wallet = Wallet{balance:20};
+        wallet.withdraw(10);
         assert_eq!(wallet.balance(), 10);
     }
 }
